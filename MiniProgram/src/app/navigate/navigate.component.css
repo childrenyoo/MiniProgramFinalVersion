@@ -1,0 +1,65 @@
+.helloMessage{
+  color: darksalmon;
+}
+/*.menu h1,button{*/
+  /*display: inline;*/
+/*}*/
+h1{
+  color: lightpink;
+  margin-left: 5%;
+
+}
+.menu .menu-item, .btn, .postLogin{
+  display: inline;
+}
+h3{
+  color: darksalmon;
+
+  margin-right: 5px;
+}
+.postLogin h3, .exit{
+  display: inline;
+
+}
+.exit{
+  border: none;
+  width: 80px;
+  height: 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 16px;
+  background-color: #ffffff;
+  color: darksalmon;
+}
+.postLogin{
+  float: right;
+}
+.btn-register,.btn-login{
+  border: none;
+  width: 80px;
+  height: 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 16px;
+  background-color: #ffffff;
+  color: darksalmon;
+
+
+}
+
+.btn-login,.btn-register {
+  font-family: Arial;
+  background-color: #eee;
+  border: none;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+  margin-right: 5px;
+}
+.btn-login:hover,.btn-register:hover {
+  background-color: #cfd8dc;
+}
+.btn{
+  float: right;
+}

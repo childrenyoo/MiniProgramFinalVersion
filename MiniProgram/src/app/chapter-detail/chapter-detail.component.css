@@ -1,0 +1,64 @@
+.contents {
+  margin: 0 0 0 0;
+  list-style-type: none;
+  padding: 0;
+  width: 40%;
+  float: left;
+}
+.students{
+  float: right;
+  width: 40%;
+  list-style-type: none;
+}
+
+.contents button {
+  float: bottom;
+  margin-top: 10px;
+  margin-right: 10px;
+  font-family: Arial;
+  background-color: #607D8B;
+  color:white ;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+}
+.contents li {
+  position: relative;
+  cursor: pointer;
+  background-color: #EEE;
+  margin: .5em;
+  padding: .3em 1em;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #607D8B;
+}
+.students li {
+  text-decoration: none;
+  list-style-type: circle;
+
+}
+.students li p{
+ color: #607D8B;
+}
+
+.contents li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em;
+}
+h2{
+  color: darksalmon;
+}
+h3{
+  color:darkorange;
+}
+
+
+
+
+
+
+
+

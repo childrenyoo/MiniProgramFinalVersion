@@ -1,0 +1,49 @@
+
+  <div class="add-course-container">
+      <h6>{{info}}</h6>
+      <form #loginForm=ngForm >
+<!--        <div *ngIf="courseName.errors?.required" class="alert-danger">请输入课程名</div>-->
+      <input  type="text"placeholder="课程名" name="courseN" #courseName="ngModel"
+         required
+      [(ngModel)]="courseN">
+<!--        <div *ngIf="courseEName.errors?.required" class="alert-danger">请输入课程英文名</div>-->
+        <input  type="text" placeholder="课程英文名" name="courseEN" #courseEName="ngModel"
+              required
+      [(ngModel)]="courseEN">
+<!--        <div *ngIf="chapterName.errors?.required" class="alert-danger">请输入章节名</div>-->
+        <input  type="text"placeholder="章节名" name="chapterN" #chapterName="ngModel"
+                required
+                [(ngModel)]="chapterN">
+<!--        <div *ngIf="chapterEName.errors?.required" class="alert-danger">请输入章节英文名</div>-->
+        <input  type="text" placeholder="章节英文名" name="chapterEN" #chapterEName="ngModel"
+                required
+                [(ngModel)]="chapterEN">
+<!--        <div *ngIf="contents.errors?.required" class="alert-danger">请输入章节内容</div>-->
+        <textarea  type="text"
+                   placeholder="章节内容:请把最后一条内容设为问题&#10;例如:IP地址是指互联网协议地址&#10;IP地址是IP协议提供的一种统一的地址格式&#10;英文意思是网络之间互连的协议&#10;为什么IP协议叫做因特网协议?"
+                   name="teaContents" #contents="ngModel"
+                required
+                   [(ngModel)]="teaContents"></textarea>
+        <div *ngIf="loginForm.invalid" class="alert-danger">{{message}}</div>
+       <button type="submit" class="add" (click)="onSubmit(loginForm.value)">添加</button>
+        <button type="refresh" (click)="refreshCourseList()">刷新我的课表</button>
+      </form>
+
+
+
+<!--        <input  placeholder="章节内容" #contents required>-->
+<!--      <input placeholder="章节英文名" #chapterEName required>-->
+<!--      <textarea  placeholder="章节内容" #contents required></textarea>-->
+
+
+
+  </div>
+
+
+<!--  <button (click)="add(courseName.value,courseEName.value,-->
+<!--  chapterName.value, chapterEName.value, contents.value);-->
+<!--  courseName.value='';courseEName.value='';chapterName.value='';chapterEName.value='';contents.value=''">添加</button>-->
+<!--  <button (click)="goback()">返回</button>-->
+
+
+

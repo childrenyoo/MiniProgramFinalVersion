@@ -1,0 +1,33 @@
+<form #loginForm="ngForm" >
+<label>用户名</label>
+<input  type="text" name="username" #userName="ngModel"
+        required minlength="2" maxlength="10"
+        [(ngModel)]="username">
+  <div *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+       class="alert alert-danger">
+
+    <div *ngIf="userName.errors.required">
+      用户名必填
+    </div>
+
+    </div>
+<label>密码</label>
+<input  type="password" name="password" #passWord="ngModel"
+        required
+        [(ngModel)]="password">
+    <div *ngIf="passWord.invalid && (passWord.dirty || passWord.touched)"
+         class="alert alert-danger">
+
+      <div *ngIf="passWord.errors.required">
+        密码必填
+      </div>
+      <!--<div *ngIf="passWord.errors.minLength">-->
+        <!--password must be at least 6 characters long.-->
+      <!--</div>-->
+      <!--<div *ngIf="passWord.errors.maxLength">-->
+        <!--password must be no more than 12 characters long-->
+      <!--</div>-->
+      </div>
+<button type="submit" [disabled]="loginForm.invalid"   (click)="onSubmit()">登录</button>
+  <label >{{alert}}</label>
+</form>

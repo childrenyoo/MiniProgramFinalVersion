@@ -1,0 +1,12 @@
+<div class="menu" >
+  <h1 class="menu-item" >Welcome to {{title}}!</h1>
+  <div class="btn" *ngIf="!isLogin">
+    <button class="btn-register" routerLink="/register">注册</button>
+  <button class="btn-login" routerLink="/login">登录</button>
+  </div>
+  <div class="postLogin">
+    <h3 *ngIf="isLogin">Hello, {{account}}</h3>
+    <button class="exit" *ngIf="isLogin" (click)="exit()">退出登录</button>
+    </div>
+
+</div>

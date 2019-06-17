@@ -1,0 +1,25 @@
+<div class="chapter-detail">
+<div class="contents">
+<h2>章节具体内容</h2>
+  <li *ngFor="let message of messages">
+    {{message.text}}
+  </li>
+  <button (click)="goBack()">返回</button>
+</div>
+<div class="students">
+<h2>学生学习进度和作业完成情况</h2>
+<!--<app-students [studentsName]="studentsName" [progressValue]="progress"></app-students>-->
+  <h3 *ngIf="studentsName.length==0">无选课学生</h3>
+  <ul *ngIf="studentsName.length>0">
+  <li *ngFor="let name of studentsName; let i=index">
+    <p>{{name}}&#10;作业完成情况:{{doHomework[i]}}</p>
+    <p>学习进度</p>
+    <progress-bar [progress]="progress[i]" [color-degraded]="{'0': '#00cbcb',  '15': '#f9c3d3', '25': '#fd8c8e'}">
+    </progress-bar>
+  </li>
+    </ul>
+
+
+</div>
+</div>
+

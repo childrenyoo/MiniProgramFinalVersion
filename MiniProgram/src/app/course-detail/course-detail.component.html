@@ -1,0 +1,12 @@
+<div class="course_detail">
+  <h1 style="text-align:left">{{courseName}}</h1>
+  <div class="list1" >
+    <h2>选课学生列表</h2>
+    <app-students [studentsName]= "studentsName" ></app-students>
+
+  </div>
+  <div class="list2" >
+    <h2>章节列表</h2>
+    <app-chapters [chapters]="chapters"></app-chapters>
+  </div>
+</div>

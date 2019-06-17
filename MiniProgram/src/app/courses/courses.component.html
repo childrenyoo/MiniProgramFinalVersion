@@ -1,0 +1,22 @@
+<div class="courses">
+  <h2>My Courses</h2>
+  <h2 *ngIf="courses.length==0">您还没有发布课程, 现在就开始吧</h2>
+
+  <a *ngFor="let course of courses " routerLink="/courses/course_detail/{{course.contentId}}" (click)="print(course.id)">
+    <div class="module course">
+      <h4>{{course.name}}</h4>
+    </div>
+
+  </a>
+  <button routerLink="/courses/add_course">添加课程或章节</button>
+</div>
+
+<div class="right">
+<router-outlet></router-outlet>
+</div>
+<!--<li *ngFor="let chapter of chapters" class="chapter_list">-->
+<!--  <a routerLink="/chapter_detail/{{chapter.chatBoxId}}">-->
+<!--    <span class="badge">{{chapter.text}}</span>-->
+<!--  </a>-->
+
+<!--</li>-->

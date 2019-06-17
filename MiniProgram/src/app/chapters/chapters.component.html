@@ -1,0 +1,8 @@
+<ul class="chapters">
+  <li *ngFor="let chapter of chapters" class="chapter_list">
+    <a routerLink="/courses/chapter_detail/{{chapter.chatBoxId}}">
+      <span>{{chapter.text}}</span>
+    </a>
+
+  </li>
+</ul>

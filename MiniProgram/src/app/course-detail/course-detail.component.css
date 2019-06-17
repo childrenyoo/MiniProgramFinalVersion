@@ -1,0 +1,16 @@
+.list1{
+  float: left;
+  width: 40%;
+}
+.list2{
+  float: right;
+  width: 60%;
+  margin-left: 0;
+  padding-left: 0;
+}
+h1,h2 {
+  color: darksalmon;
+}
+h3{
+  color: darkorange;
+}

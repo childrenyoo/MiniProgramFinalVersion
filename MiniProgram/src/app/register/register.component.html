@@ -1,0 +1,37 @@
+<form #registerForm="ngForm">
+  <label>用户名</label>
+  <input  type="text" name="username" #userName="ngModel"
+          required minlength="3" maxlength="20"
+          [(ngModel)]="username">
+  <div *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+       class="alert alert-danger">
+    <div *ngIf="userName.errors.required">
+      用户名必填
+    </div>
+    <div *ngIf="userName.errors.minlength">
+      用户名至少3个字符
+    </div>
+    <div *ngIf="userName.errors.maxlength">
+      用户名最多不超过20个字符
+    </div>
+    </div>
+  <label>密码</label>
+  <input  type="password" name="password" #passWord="ngModel"
+          required minlength="6" maxlength="12" validateEqual="confirmPassword" reverse="true"
+          [(ngModel)]="password">
+    <div *ngIf="passWord.invalid && (passWord.dirty || passWord.touched)"
+         class="alert alert-danger">
+      <div *ngIf="passWord.errors.required">密码必填</div>
+      <div *ngIf="passWord.errors.minlength">密码至少6个字符</div>
+      <div *ngIf="passWord.errors.maxlength">密码最多不超过12个字符</div>
+    </div>
+  <label>确认密码</label>
+  <input type="password" name="confirmPassword" [ngModel]="confirmPassword"
+         required validateEqual="password" #confirmpassword="ngModel">
+  <div [hidden]="confirmpassword.valid ||  (confirmpassword.pristine && confirmpassword.untouched)">
+    密码不匹配
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid"   (click)=onSubmit()>注册</button>
+  <label >{{alert}}</label>
+</form>

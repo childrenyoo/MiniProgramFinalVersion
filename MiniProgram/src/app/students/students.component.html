@@ -1,0 +1,13 @@
+<div class="chapter_detail">
+  <h3 *ngIf="studentsName.length==0">无选课学生</h3>
+<ul class="students" *ngIf="studentsName.length>0">
+  <li *ngFor="let student of studentsName " class="student_list">
+    <span class="badge">{{student}}</span>
+<!--    <mat-progress-bar mode="indeterminate" value = "40"></mat-progress-bar>-->
+  </li>
+</ul>
+<ul class="progress" *ngIf="progressValue">
+  <progress-bar *ngFor="let value of progressValue " [progress]="value" [color-degraded]="{'0': '#00cbcb',  '15': '#f9c3d3', '25': '#fd8c8e'}">
+  </progress-bar>
+</ul>
+</div>

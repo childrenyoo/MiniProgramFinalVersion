@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wethree.UserMapper">
+
+    <!--找到所有老师的所有课程-->
+    <select id="findAllCourses" resultType="com.wethree.mybatis.po.Course">
+        select * from course
+    </select>
+
+    <!--根据课程英文名（content_id）找到所有的章节-->
+    <select id="findContentsByContentId" resultType="com.wethree.mybatis.po.Content">
+        select * from contents where content_id=#{content_id}
+    </select>
+
+    <!--根据课程id找到所有章节的Id-->
+    <select id="findIdByCourseId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select id from contents where content_id in(
+          select content_id from course where course_id=#{course_id}
+        )
+    </select>
+
+    <!--根据章节id找到章节名称-->
+    <select id="findTextByChatboxId" parameterType="java.lang.String" resultType="java.lang.String">
+        select text from contents where chatbox_id=#{chatbox_id}
+    </select>
+
+    <!--根据章节找到所有的对话信息-->
+    <select id="findMessageByChatboxId" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Message">
+        select * from message where uuid in (
+          select uuid from chatbox_msg where chatbox_id=#{chatbox_id}
+        )
+    </select>
+
+    <insert id="studentAddCourse" parameterType="com.wethree.request.StuAddCourseRequest">
+        insert into student_course (student_id, course_id, id, progress, do_homework)
+        values (#{student_id}, #{course_id}, #{id}, #{progress},#{do_homework})
+    </insert>
+
+    <!--根据学号，课程名和章节id找到进度-->
+    <select id="findProgressById" parameterType="com.wethree.request.ProgressRequest" resultType="java.lang.Double">
+        select progress from student_course where student_id=#{student_id} and course_id=#{course_id} and id=#{id}
+    </select>
+
+    <!--根据章节中chatbox_id,学号和进度更新学生参与的课程的具体进度-->
+    <update id="updateProgress" parameterType="com.wethree.request.UpdateChatboxRequest">
+        update student_course set progress=#{progress} where student_id=#{student_id} and (course_id, id) =(
+          select course_id, id from course, contents where chatbox_id=#{chatbox_id} and contents.content_id=course.content_id
+        )
+    </update>
+
+    <!--根据学号找到学生的所有课程-->
+    <select id="findStudentCourse" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Course">
+        select course_id,course_name, content_id from course where course_id in(
+          select course_id from student_course where student_id=#{student_id}
+        )
+    </select>
+
+    <!--提交学生作业-->
+    <update id="updateHomework" parameterType="com.wethree.request.UpdateChatboxRequest">
+        update student_course set do_homework=1,homework_contents=#{homework_contents} where student_id=#{student_id} and (course_id, id) =(
+          select course_id, id from course, contents where chatbox_id=#{chatbox_id} and contents.content_id=course.content_id
+        )
+    </update>
+
+    <!--根据学号和chatbox_id找到作业完成情况-->
+    <select id="findDoHomework" parameterType="com.wethree.request.HomeworkRequest" resultType="java.lang.Integer">
+        select do_homework from student_course where student_id=#{student_id} and (course_id,id)=(
+          select course_id, id from course, contents where chatbox_id=#{chatbox_id} and contents.content_id=course.content_id
+        )
+    </select>
+
+    <!--检查学生是否已存在-->
+    <select id="findStudentById" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select sex from student where student_id=#{student_id}
+    </select>
+
+    <!--添加学生-->
+    <insert id="addStudent" parameterType="com.wethree.mybatis.po.Student">
+        insert into student (student_id, student_name, email, sex, open_id)
+        values (#{student_id}, #{student_name}, #{email}, #{sex}, #{open_id})
+    </insert>
+
+    <!--根据学号和信息ID（uuid）判断是否已存在该信息-->
+    <select id="findUuidByStudentIdAndUuid" parameterType="com.wethree.request.AddFavouriteRequest" resultType="java.lang.Integer">
+        select uuid from student_favourite where student_id=#{student_id} and uuid=#{uuid}
+    </select>
+
+    <!--添加学生收藏-->
+    <insert id="addFavourite" parameterType="com.wethree.request.AddFavouriteRequest">
+        insert into student_favourite (student_id, uuid)
+        values (#{student_id},#{uuid})
+    </insert>
+
+
+    <!--查看学生收藏-->
+    <select id="findFavouriteByStudentId" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Favourite">
+        select uuid,text,chatbox_id
+        from student_favourite natural join message natural join chatbox_msg
+        where student_id=#{student_id}
+    </select>
+
+    <!--根据微信唯一的OPEN_ID查看学生是否存在-->
+    <select id="findUserByOpenId" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Student">
+        select student_id, student_name, email, sex
+        from student where open_id=#{open_id}
+    </select>
+
+    <!--删除指定学生的收藏条目-->
+    <delete id="deleteFavourite" parameterType="com.wethree.request.AddFavouriteRequest">
+    delete from student_favourite where student_id=#{student_id} and uuid=#{uuid}
+    </delete>
+
+    <!--宇童内容-->
+    <!--找到某个老师的所有课程-->
+    <select id="findTeacherCourses" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Course">
+        select * from course where teacher_id in(
+             select teacher_id from teacher where teacher_name=#{teacher_name}
+             )
+    </select>
+
+    <!--找到某门课程的章节-->
+    <select id="findChaptersByCourseId" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Content">
+        select * from contents where content_id = #{content_id}
+    </select>
+
+    <!--根据content_id找到course_id-->
+    <select id="findCourseIdByContentId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select course_id from course where content_id=#{content_id}
+    </select>
+
+    <!--找到某门课程的选课学生 根据course_id找到学生-->
+    <select id="findStudentsByCourseId" parameterType="java.lang.Integer" resultType="com.wethree.mybatis.po.Student">
+        select * from student where student_id in (
+        select student_id from student_course where course_id=#{course_id} group by student_id
+        )
+    </select>
+
+
+    <!--根据课程英文名返回整条课程记录-->
+    <select id="findCourseByContentId" parameterType="java.lang.String" resultType="com.wethree.mybatis.po.Course">
+        select * from course where content_id=#{content_id}
+
+    </select>
+
+    <!--根据chatbox_id返回course_id-->
+    <select id="findCourseIdByChatBoxId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select course_id from course inner join contents where chatbox_id=#{chatbox_id} and course.content_id=contents.content_id;
+    </select>
+
+    <!--根据course_id和id找到选课学生及其学习进度-->
+    <select id="findProgressByCourseId" parameterType="com.wethree.request.CourseChapterRequest" resultType="com.wethree.mybatis.po.StudentCourse">
+        select student_id,course_id,id,progress,do_homework from student_course where course_id=#{course_id} and id=#{id}
+    </select>
+
+    <!--根据student_id找到学生姓名-->
+    <select id="findStudentNameByStudentId" parameterType="java.lang.String" resultType="java.lang.String">
+        select student_name from student where student_id=#{student_id}
+    </select>
+
+    <!--根据chatbox_id找到章节id-->
+    <select id="findIdByChatBoxId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from contents where chatbox_id=#{chatbox_id}
+    </select>
+
+    <!--根据课程中文名或英文名查找课程-->
+    <select id="findCourseByCourseNameOrCourseEName" parameterType="com.wethree.mybatis.po.Course" resultType="com.wethree.mybatis.po.Course">
+        select * from course where course_name=#{course_name} or content_id=#{content_id}
+    </select>
+
+    <!--根据课程中文名和英文名查找课程-->
+    <select id="findCourseByCourseNameAndCourseEName" parameterType="com.wethree.mybatis.po.Course" resultType="com.wethree.mybatis.po.Course">
+        select * from course where course_name=#{course_name} and content_id=#{content_id} and teacher_id=#{teacher_id}
+    </select>
+
+    <!--根据章节名查找contents-->
+    <select id="findContentsByTextAndChatBoxId" parameterType="com.wethree.mybatis.po.Content" resultType="com.wethree.mybatis.po.Content">
+        select * from contents where text=#{text} or chatbox_id=#{chatbox_id}
+    </select>
+
+    <!--为教师添加课程-->
+    <insert id="teacherAddCourse" parameterType="com.wethree.request.TeaAddCourseRequest">
+      insert into course (course_name, content_id, teacher_id)
+        values (#{course_name}, #{content_id}, #{teacher_id})
+    </insert>
+
+    <!--针对contents表为课程添加章节内容-->
+    <insert id="addContentsForContents" parameterType="com.wethree.mybatis.po.Content">
+        insert into contents (content_id,id,text,chatbox_id)
+          values (#{content_id}, #{id}, #{text}, #{chatbox_id})
+    </insert>
+
+    <!--针对message表为课程添加章节内容-->
+    <insert id="addContentsForMessage" parameterType="com.wethree.mybatis.po.Message">
+        insert into message (text,image_url,type)
+          values (#{text}, #{image_url}, #{type})
+    </insert>
+
+    <!--找出最大uuid-->
+    <select id="findMaxUuid" resultType="java.lang.Integer">
+        select max(uuid) from message;
+    </select>
+
+    <!--针对chatbox_msg表为课程添加章节内容-->
+    <insert id="addContents" parameterType="com.wethree.mybatis.po.ChatBoxMessage">
+        insert into chatbox_msg (chatbox_id,uuid)
+          values ( #{chatbox_id}, #{uuid})
+    </insert>
+
+    <!--找出是否存在某教师-->
+    <select id="login" parameterType="com.wethree.request.RegLoginRequest" resultType="com.wethree.mybatis.po.Teacher">
+        select teacher_name,password from teacher where teacher_name=#{username} and password=#{password}
+    </select>
+
+    <!--只根据用户名找出是否存在某教师-->
+    <select id="preRegister" parameterType="com.wethree.request.RegLoginRequest" resultType="com.wethree.mybatis.po.Teacher">
+        select teacher_name,password from teacher where teacher_name=#{username}
+    </select>
+
+    <!--注册教师-->
+    <insert id="register" parameterType="com.wethree.request.RegLoginRequest" >
+        insert into teacher (teacher_name,password)
+        values (#{username}, #{password})
+    </insert>
+    <!--根据教师名找出教师id-->
+    <select id="findTeacherNameByTeacherId" parameterType="java.lang.String" resultType="java.lang.Integer">
+   select teacher_id from teacher where teacher_name=#{teacher_name}
+
+   </select>
+
+
+    <!--根据content_id找出最大章节数-->
+    <select id="findMaxId" parameterType="java.lang.String" resultType="java.lang.Integer">
+   select max(id) from contents where content_id=#{content_id}
+
+   </select>
+    <select id="findMaxCourseId" resultType="java.lang.Integer">
+        select max(course_id) from course;
+    </select>
+    <insert id="addStudentCourseIfNewCourse" parameterType="com.wethree.request.StuAddCourseRequest">
+        insert into student_course (student_id, course_id, id, progress, do_homework)
+          values (#{student_id},#{course_id},#{id},#{progress},#{do_homework})
+    </insert>
+
+
+</mapper>

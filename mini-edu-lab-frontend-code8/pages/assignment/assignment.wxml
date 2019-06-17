@@ -1,0 +1,16 @@
+<!--pages/chatbox/assignment/assignment.wxml-->
+<!-- <text>pages/chatbox/assignment/assignment.wxml</text> -->
+
+<view class="container">
+  <view>  
+    <text class="topic">主题: {{chatboxId}}</text>
+  </view>
+  <text class="title">{{homework}}</text>
+
+  <view>
+    <label>作业内容:</label>
+    <input class="inputAnswer" value="{{homeworkInput}}" bindinput="getHomework"/>
+  </view>
+
+    <button class="submitAnswer" bindtap='submitHomework'>提交</button>
+</view>
